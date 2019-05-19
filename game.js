@@ -17,11 +17,7 @@ var plantsPlaces;
 var level = 1;
 var handA = null;
 function preload() {
-    this.load.audio('bgSound', [
-       // 'assets/audio/background.mp3',
-        //'assets/audio/click.wav',
-        'assets/audio/collect.wav',
-    ]);
+    //this.load.audio('bgSound', ['assets/audio/background.mp3']);
     this.load.audio('levelUpSound', ['assets/audio/levelUp.mp3']);
     this.load.audio('clickSound', ['assets/audio/click.wav']);
     this.load.audio('clickPlantSound', ['assets/audio/notification.wav']);
