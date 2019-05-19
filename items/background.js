@@ -63,7 +63,7 @@ var bgConfigVO = {
             level2: {landscape: {x:0.6, y:0.2}, portrait: {x:0.7, y: 0.1}},
             level3: {landscape: {x:0.45, y:0.8}, portrait: {x:0.35, y: 0.6}},
             level4: {landscape: {x:0.37, y:0.65}, portrait: {x:0.25, y: 0.6}},
-            level5: {landscape: {x:0.45, y:0.8}, portrait: {x:0.35, y: 0.6}}
+            level5: {landscape: {x:0.6, y:0.2}, portrait: {x:0.7, y: 0.1}}
         }
     }
 };
@@ -156,8 +156,6 @@ function backgroundOnResize(item, width, height, orientation){
                                 + value.width * bgConfigVO.plantsPlaces.scale.landscape * (key - 1) ;
                         }
                     }
-
-
                 });
                 item.y = height * bgConfigVO.floor.position["floorMiddle"].landscape.y
                     - item.list[2].height * bgConfigVO.plantsPlaces.scale.landscape

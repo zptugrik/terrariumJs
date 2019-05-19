@@ -17,6 +17,16 @@ var plantsPlaces;
 var level = 1;
 var handA = null;
 function preload() {
+    this.load.audio('bgSound', [
+       // 'assets/audio/background.mp3',
+        //'assets/audio/click.wav',
+        'assets/audio/collect.wav',
+    ]);
+    this.load.audio('levelUpSound', ['assets/audio/levelUp.mp3']);
+    this.load.audio('clickSound', ['assets/audio/click.wav']);
+    this.load.audio('clickPlantSound', ['assets/audio/notification.wav']);
+    this.load.audio('placePlantSound', ['assets/audio/placePlant.wav']);
+
 
     this.load.image('background', 'assets/textures/backgrounds/bg_gradient.png');
     this.load.image('floor', 'assets/textures/backgrounds/floor.png');
@@ -42,6 +52,11 @@ function preload() {
 }
 
 function create() {
+    this.levelUpSound = this.sound.add('levelUpSound', { loop: false });
+    this.clickSound = this.sound.add('clickSound', { loop: false });
+    this.clickPlantSound = this.sound.add('clickPlantSound', { loop: false });
+    this.placePlantSound = this.sound.add('placePlantSound', { loop: false });
+
     this.counter = 0;
     this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'background').setOrigin(0);
     this.background.name = "background";
@@ -100,20 +115,43 @@ function create() {
     this.textLevel = this.add.text(60, 15, 'Level 1', { fontFamily: 'Arial', fontSize: 16, color: '#000000' });
 
     this.buttonLevelUp = this.add.image(300, 7, 'buttonLevelUp').setOrigin(0).setInteractive();
-    this.buttonLevelUp.on('pointerdown', () => {
-        if(level != 2) return;
-        this.popupLevel2.visible = true;
-        level = 3;
-        this.plantProgressLine.scaleX = 0;
-        this.textLevel.setText('Level 2');
-        backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
-    });
     this.buttonLevelUp.setScale(0.4);
     this.textLevelUp = this.add.text(320, 15, 'LevelUp', { fontFamily: 'Arial', fontSize: 16, color: '#FFFFFF' });
+    this.buttonLevelUp.on('pointerdown', () => {
+        if(level == 2) {
+            this.levelUpSound.play();
+            this.popupLevel2.visible = true;
+            level = 3;
+            this.plantProgressLine.scaleX = 0;
+            this.textLevel.setText('Level 2');
+            backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+        }
+        if(level == 5) {
+            this.levelUpSound.play();
+            this.popupLevel3.visible = true;
+            this.plantProgressLine.scaleX = 0;
+            this.textLevel.setText('Level 3');
+        }
+        this.buttonLevelUp.y += this.buttonLevelUp.height * 0.4*0.05/2;
+        this.buttonLevelUp.x += this.buttonLevelUp.width * 0.4*0.05/2;
+        this.buttonLevelUp.setScale(0.4*0.95);
+        this.textLevelUp.y += this.textLevelUp.height * 0.05/2;
+        this.textLevelUp.x += this.textLevelUp.width * 0.05/2;
+        this.textLevelUp.setScale(0.95);
+    });
+    this.buttonLevelUp.on('pointerup', () => {
+        this.buttonLevelUp.setScale(0.4);
+        this.buttonLevelUp.y -= this.buttonLevelUp.height * 0.4*0.05/2;
+        this.buttonLevelUp.x -= this.buttonLevelUp.width * 0.4*0.05/2;
+        this.textLevelUp.setScale(1);
+        this.textLevelUp.y -= this.textLevelUp.height * 0.05/2;
+        this.textLevelUp.x -= this.textLevelUp.width * 0.05/2;
+    });
+
 
     this.oxygenIcon = this.add.image(180, 55, 'oxygenIcon').setOrigin(0);
     this.oxygenIcon.setScale(0.5);
-    this.textOxygenCounter = this.add.text(215, 54, '0', { fontFamily: 'Arial', fontSize: 16, color: '#000000' });
+    this.textOxygenCounter = this.add.text(210, 54, '0', { fontFamily: 'Arial', fontSize: 16, color: '#000000' });
 
     this.topBar = this.add.container(0, 0);
     this.topBar.name = "topBar";
@@ -131,29 +169,53 @@ function create() {
     this.plantPlace2.on('pointerdown', () => {
         if(level != 4) return;
         if(!this.aloePlant.visible){
+            this.placePlantSound.play();
             this.plantPlace2.setTexture('pot');
             this.plantPlace2.setPosition(this.plantPlace2.x, this.plantPlace2.y - 20);
             this.aloePlant.setPosition(this.plantPlace2.x, this.plantPlace2.y - 10);
             this.aloePlant.visible = true;
         }
         else{
+            this.clickPlantSound.play();
             this.counter++;
+
             this.textOxygenCounter.setText(this.counter);
             this.plantProgressLine.scaleX += 0.65/10;
             if(this.counter == 15) {
                 this.aloePlant.setTexture('aloePlant2');
                 this.aloePlant.setPosition(this.plantPlace2.x, this.plantPlace2.y + 10);
             }
+            this.aloePlant.y += this.aloePlant.height * 0.05;
+            this.aloePlant.x += this.aloePlant.width * 0.05/2;
+            this.aloePlant.setScale(0.95);
+            this.plantPlace2.y -= this.aloePlant.height * 0.05;
+            this.plantPlace2.x += this.aloePlant.width * 0.05/2;
+            this.plantPlace2.setScale(0.95);
             if(this.counter == 20) {
+                this.aloePlant.setScale(1);
+                this.aloePlant.y -= this.aloePlant.height * 0.05;
+                this.aloePlant.x -= this.aloePlant.width * 0.05/2;
+                this.plantPlace2.setScale(1);
+                this.plantPlace2.y += this.aloePlant.height * 0.05;
+                this.plantPlace2.x -= this.aloePlant.width * 0.05/2;
                 this.aloePlant.setTexture('aloePlant3');
                 level = 5;
-                this.popupLevel3.visible = true;
-                this.hand.visible = false;
-                if(!_.isNil(handA)) handA.kill();
+               // this.popupLevel3.visible = true;
+              //  this.hand.visible = false;
+               // if(!_.isNil(handA)) handA.kill();
                 backgroundOnResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
                 backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
             }
         }
+    });
+    this.plantPlace2.on('pointerup', () => {
+        if(this.counter >= 20 || this.counter < 11) return;
+        this.aloePlant.setScale(1);
+        this.aloePlant.y -= this.aloePlant.height * 0.05;
+        this.aloePlant.x -= this.aloePlant.width * 0.05/2;
+        this.plantPlace2.setScale(1);
+        this.plantPlace2.y += this.aloePlant.height * 0.05;
+        this.plantPlace2.x -= this.aloePlant.width * 0.05/2;
     });
     this.plantPlace3 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace4 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
@@ -161,21 +223,44 @@ function create() {
     this.plantPlace5.on('pointerdown', () => {
         if(this.counter >= 10) return;
         if(!this.snakePlant.visible){
+            this.placePlantSound.play();
             this.plantPlace5.setTexture('pot');
             this.snakePlant.setPosition(this.plantPlace5.x, this.plantPlace5.y - 40);
             this.snakePlant.visible = true;
         }
         else{
+            this.clickPlantSound.play();
             this.counter++;
+            this.snakePlant.y += this.snakePlant.height * 0.05;
+            this.snakePlant.x += this.snakePlant.width * 0.05/2;
+            this.snakePlant.setScale(0.95);
+            this.plantPlace5.y -= this.snakePlant.height * 0.05;
+            this.plantPlace5.x += this.snakePlant.width * 0.05/2;
+            this.plantPlace5.setScale(0.95);
             this.textOxygenCounter.setText(this.counter);
             this.plantProgressLine.scaleX += 0.65/10;
             if(this.counter == 5) this.snakePlant.setTexture('snakePlant2');
             if(this.counter == 10) {
                 this.snakePlant.setTexture('snakePlant3');
                 level = 2;
+                this.snakePlant.setScale(1);
+                this.snakePlant.y -= this.snakePlant.height * 0.05;
+                this.snakePlant.x -= this.snakePlant.width * 0.05/2;
+                this.plantPlace5.setScale(1);
+                this.plantPlace5.y += this.snakePlant.height * 0.05;
+                this.plantPlace5.x -= this.snakePlant.width * 0.05/2;
                 backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
             }
         }
+    });
+    this.plantPlace5.on('pointerup', () => {
+        if(this.counter >= 10 || this.counter < 1) return;
+        this.snakePlant.setScale(1);
+        this.snakePlant.y -= this.snakePlant.height * 0.05;
+        this.snakePlant.x -= this.snakePlant.width * 0.05/2;
+        this.plantPlace5.setScale(1);
+        this.plantPlace5.y += this.snakePlant.height * 0.05;
+        this.plantPlace5.x -= this.snakePlant.width * 0.05/2;
     });
     this.plantPlace6 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace7 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
@@ -200,6 +285,7 @@ function create() {
     this.buttonLevel2 = this.add.image(220, 635, 'buttonLevelUp').setOrigin(0).setInteractive();
     this.buttonLevel2.on('pointerdown', () => {
         if(level != 3) return;
+        this.clickSound.play();
         this.popupLevel2.visible = false;
         level = 4;
         backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
@@ -269,5 +355,6 @@ function resize (gameSize)
     backgroundOnResize(this.topBar, this.scale.width, this.scale.height, this.scale.orientation);
     backgroundOnResize(plantsPlaces, this.scale.width, this.scale.height, this.scale.orientation);
     backgroundOnResize(this.popupLevel2, this.scale.width, this.scale.height, this.scale.orientation);
+    backgroundOnResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
     backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
 }
