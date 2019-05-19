@@ -17,7 +17,7 @@ var plantsPlaces;
 var level = 1;
 var handA = null;
 function preload() {
-    //this.load.audio('bgSound', ['assets/audio/background.mp3']);
+    this.load.audio('bgSound', ['assets/audio/background.mp3']);
     this.load.audio('levelUpSound', ['assets/audio/levelUp.mp3']);
     this.load.audio('clickSound', ['assets/audio/click.wav']);
     this.load.audio('clickPlantSound', ['assets/audio/notification.wav']);
@@ -48,6 +48,7 @@ function preload() {
 }
 
 function create() {
+    this.bgSound = this.sound.add('bgSound', { loop: true }).play();
     this.levelUpSound = this.sound.add('levelUpSound', { loop: false });
     this.clickSound = this.sound.add('clickSound', { loop: false });
     this.clickPlantSound = this.sound.add('clickPlantSound', { loop: false });
@@ -82,7 +83,7 @@ function create() {
     backgroundOnResize(this.floorBottom, this.scale.width, this.scale.height, this.scale.orientation);
     this.floorLeft = this.add.sprite(0, 0, 'floor').setOrigin(0);
     this.floorLeft.name = "floorLeft";
-    this.floorLeft.rotation = 1.57;
+    this.floorLeft.rotation = 1.571;
     backgroundOnResize(this.floorLeft, this.scale.width, this.scale.height, this.scale.orientation);
     this.floorRight = this.add.sprite(this.scale.width, 0, 'floor').setOrigin(0);
     this.floorRight.name = "floorRight";
@@ -128,20 +129,12 @@ function create() {
             this.plantProgressLine.scaleX = 0;
             this.textLevel.setText('Level 3');
         }
-        this.buttonLevelUp.y += this.buttonLevelUp.height * 0.4*0.05/2;
-        this.buttonLevelUp.x += this.buttonLevelUp.width * 0.4*0.05/2;
         this.buttonLevelUp.setScale(0.4*0.95);
-        this.textLevelUp.y += this.textLevelUp.height * 0.05/2;
-        this.textLevelUp.x += this.textLevelUp.width * 0.05/2;
         this.textLevelUp.setScale(0.95);
     });
     this.buttonLevelUp.on('pointerup', () => {
         this.buttonLevelUp.setScale(0.4);
-        this.buttonLevelUp.y -= this.buttonLevelUp.height * 0.4*0.05/2;
-        this.buttonLevelUp.x -= this.buttonLevelUp.width * 0.4*0.05/2;
         this.textLevelUp.setScale(1);
-        this.textLevelUp.y -= this.textLevelUp.height * 0.05/2;
-        this.textLevelUp.x -= this.textLevelUp.width * 0.05/2;
     });
 
 
@@ -181,19 +174,11 @@ function create() {
                 this.aloePlant.setTexture('aloePlant2');
                 this.aloePlant.setPosition(this.plantPlace2.x, this.plantPlace2.y + 10);
             }
-            this.aloePlant.y += this.aloePlant.height * 0.05;
-            this.aloePlant.x += this.aloePlant.width * 0.05/2;
             this.aloePlant.setScale(0.95);
-            this.plantPlace2.y -= this.aloePlant.height * 0.05;
-            this.plantPlace2.x += this.aloePlant.width * 0.05/2;
             this.plantPlace2.setScale(0.95);
             if(this.counter == 20) {
                 this.aloePlant.setScale(1);
-                this.aloePlant.y -= this.aloePlant.height * 0.05;
-                this.aloePlant.x -= this.aloePlant.width * 0.05/2;
                 this.plantPlace2.setScale(1);
-                this.plantPlace2.y += this.aloePlant.height * 0.05;
-                this.plantPlace2.x -= this.aloePlant.width * 0.05/2;
                 this.aloePlant.setTexture('aloePlant3');
                 level = 5;
                // this.popupLevel3.visible = true;
@@ -207,11 +192,7 @@ function create() {
     this.plantPlace2.on('pointerup', () => {
         if(this.counter >= 20 || this.counter < 11) return;
         this.aloePlant.setScale(1);
-        this.aloePlant.y -= this.aloePlant.height * 0.05;
-        this.aloePlant.x -= this.aloePlant.width * 0.05/2;
         this.plantPlace2.setScale(1);
-        this.plantPlace2.y += this.aloePlant.height * 0.05;
-        this.plantPlace2.x -= this.aloePlant.width * 0.05/2;
     });
     this.plantPlace3 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace4 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
@@ -227,11 +208,7 @@ function create() {
         else{
             this.clickPlantSound.play();
             this.counter++;
-            this.snakePlant.y += this.snakePlant.height * 0.05;
-            this.snakePlant.x += this.snakePlant.width * 0.05/2;
             this.snakePlant.setScale(0.95);
-            this.plantPlace5.y -= this.snakePlant.height * 0.05;
-            this.plantPlace5.x += this.snakePlant.width * 0.05/2;
             this.plantPlace5.setScale(0.95);
             this.textOxygenCounter.setText(this.counter);
             this.plantProgressLine.scaleX += 0.65/10;
@@ -240,11 +217,7 @@ function create() {
                 this.snakePlant.setTexture('snakePlant3');
                 level = 2;
                 this.snakePlant.setScale(1);
-                this.snakePlant.y -= this.snakePlant.height * 0.05;
-                this.snakePlant.x -= this.snakePlant.width * 0.05/2;
                 this.plantPlace5.setScale(1);
-                this.plantPlace5.y += this.snakePlant.height * 0.05;
-                this.plantPlace5.x -= this.snakePlant.width * 0.05/2;
                 backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
             }
         }
@@ -252,11 +225,7 @@ function create() {
     this.plantPlace5.on('pointerup', () => {
         if(this.counter >= 10 || this.counter < 1) return;
         this.snakePlant.setScale(1);
-        this.snakePlant.y -= this.snakePlant.height * 0.05;
-        this.snakePlant.x -= this.snakePlant.width * 0.05/2;
         this.plantPlace5.setScale(1);
-        this.plantPlace5.y += this.snakePlant.height * 0.05;
-        this.plantPlace5.x -= this.snakePlant.width * 0.05/2;
     });
     this.plantPlace6 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace7 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
