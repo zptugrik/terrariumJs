@@ -123,7 +123,7 @@ function create() {
             this.textLevel.setText('Level 2');
             onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
         }
-        if(level == 5) {
+        if(level == 5 && this.popupLevel3.visible == false) {
             this.levelUpSound.play();
             this.popupLevel3.visible = true;
             this.hand.visible = false;

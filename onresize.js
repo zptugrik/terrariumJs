@@ -59,11 +59,11 @@ var bgConfigVO = {
         scale:
             {landscape: 0.26, portrait: 0.8},
         position: {
-            level1: {landscape: {x:0.16, y:0.7}, portrait: {x:0.03, y: 0.7}},
-            level2: {landscape: {x:0.6, y:0.2}, portrait: {x:0.7, y: 0.1}},
-            level3: {landscape: {x:0.45, y:0.8}, portrait: {x:0.35, y: 0.6}},
-            level4: {landscape: {x:0.37, y:0.65}, portrait: {x:0.25, y: 0.5}},
-            level5: {landscape: {x:0.6, y:0.2}, portrait: {x:0.7, y: 0.1}}
+            level1: {landscape: {x:325, y:0.7}, portrait: {x:0.03, y: 0.7}},
+            level2: {landscape: {x:-100, y:0.15}, portrait: {x:0.7, y: 0.1}},
+            level3: {landscape: {x:45, y:0.8}, portrait: {x:0.35, y: 0.6}},
+            level4: {landscape: {x:137, y:0.65}, portrait: {x:0.25, y: 0.5}},
+            level5: {landscape: {x:-100, y:0.15}, portrait: {x:0.7, y: 0.1}}
         }
     }
 };
@@ -187,10 +187,11 @@ function onResize(item, width, height, orientation){
 
             }
             else if (orientation === Phaser.Scale.LANDSCAPE) {
-                item.setScale(bgConfigVO.hand.scale.landscape);
-                if(level ==1) item.scaleY = -item.scaleY;
-                item.setPosition(width * bgConfigVO.hand.position["level" + level].landscape.x,
+                item.setPosition(width /2 - bgConfigVO.hand.position["level" + level].landscape.x,
                     height * bgConfigVO.hand.position["level" + level].landscape.y);
+                item.setScale(bgConfigVO.hand.scale.landscape);
+                if(level == 1) item.scaleY = -item.scaleY;
+
                 var handDestination = item.y - 200 * bgConfigVO.hand.scale.landscape;
             }
             if(!_.isNil(handA)) handA.kill();
