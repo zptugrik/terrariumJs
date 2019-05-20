@@ -62,12 +62,12 @@ var bgConfigVO = {
             level1: {landscape: {x:0.16, y:0.7}, portrait: {x:0.03, y: 0.7}},
             level2: {landscape: {x:0.6, y:0.2}, portrait: {x:0.7, y: 0.1}},
             level3: {landscape: {x:0.45, y:0.8}, portrait: {x:0.35, y: 0.6}},
-            level4: {landscape: {x:0.37, y:0.65}, portrait: {x:0.25, y: 0.6}},
+            level4: {landscape: {x:0.37, y:0.65}, portrait: {x:0.25, y: 0.5}},
             level5: {landscape: {x:0.6, y:0.2}, portrait: {x:0.7, y: 0.1}}
         }
     }
 };
-function backgroundOnResize(item, width, height, orientation){
+function onResize(item, width, height, orientation){
     switch (item.name){
         case "background":
             var ratioH = height / bgConfigVO.background.height;
@@ -143,6 +143,7 @@ function backgroundOnResize(item, width, height, orientation){
 
             }
             else if (orientation === Phaser.Scale.LANDSCAPE) {
+                item.x = width/2 - 500;
                 item.setScale(bgConfigVO.plantsPlaces.scale.landscape);
                 _.forEach(item.list, function(value, key) {
                     if(key > 1){
@@ -179,14 +180,13 @@ function backgroundOnResize(item, width, height, orientation){
         case "hand":
             if (orientation === Phaser.Scale.PORTRAIT) {
                 item.setScale(bgConfigVO.hand.scale.portrait);
-                if(level ==1) item.scaleY = -item.scaleY;
+                if(level == 1 || level == 4) item.scaleY = -item.scaleY;
                 item.setPosition(width * bgConfigVO.hand.position[["level" + level]].portrait.x,
                     height * bgConfigVO.hand.position["level" + level].portrait.y);
                 var handDestination = item.y - 200 * bgConfigVO.hand.scale.portrait;
 
             }
             else if (orientation === Phaser.Scale.LANDSCAPE) {
-
                 item.setScale(bgConfigVO.hand.scale.landscape);
                 if(level ==1) item.scaleY = -item.scaleY;
                 item.setPosition(width * bgConfigVO.hand.position["level" + level].landscape.x,

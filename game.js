@@ -17,7 +17,7 @@ var plantsPlaces;
 var level = 1;
 var handA = null;
 function preload() {
-    this.load.audio('bgSound', ['assets/audio/background.mp3']);
+   // this.load.audio('bgSound', ['assets/audio/background.mp3']);
     this.load.audio('levelUpSound', ['assets/audio/levelUp.mp3']);
     this.load.audio('clickSound', ['assets/audio/click.wav']);
     this.load.audio('clickPlantSound', ['assets/audio/notification.wav']);
@@ -48,7 +48,7 @@ function preload() {
 }
 
 function create() {
-    this.bgSound = this.sound.add('bgSound', { loop: true }).play();
+   // this.bgSound = this.sound.add('bgSound', { loop: true }).play();
     this.levelUpSound = this.sound.add('levelUpSound', { loop: false });
     this.clickSound = this.sound.add('clickSound', { loop: false });
     this.clickPlantSound = this.sound.add('clickPlantSound', { loop: false });
@@ -57,38 +57,38 @@ function create() {
     this.counter = 0;
     this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'background').setOrigin(0);
     this.background.name = "background";
-    backgroundOnResize(this.background, this.scale.width, this.scale.height);
+    onResize(this.background, this.scale.width, this.scale.height);
 
     this.cloud1 = this.add.sprite(0, 0, 'cloud1').setOrigin(0);
     this.cloud1.name = "cloud1";
-    backgroundOnResize(this.cloud1, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.cloud1, this.scale.width, this.scale.height, this.scale.orientation);
     this.cloud2 = this.add.sprite(0, 0, 'cloud1').setOrigin(0);
     this.cloud2.name = "cloud2";
-    backgroundOnResize(this.cloud2, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.cloud2, this.scale.width, this.scale.height, this.scale.orientation);
     this.cloud3 = this.add.sprite(0, 0, 'cloud2').setOrigin(0);
     this.cloud3.name = "cloud3";
-    backgroundOnResize(this.cloud3, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.cloud3, this.scale.width, this.scale.height, this.scale.orientation);
     this.cloud4 = this.add.sprite(0, 0, 'cloud2').setOrigin(0);
     this.cloud4.name = "cloud4";
-    backgroundOnResize(this.cloud4, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.cloud4, this.scale.width, this.scale.height, this.scale.orientation);
 
     this.floorTop = this.add.sprite(0, 800, 'floor').setOrigin(0);
     this.floorTop.name = "floorTop";
-    backgroundOnResize(this.floorTop, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorTop, this.scale.width, this.scale.height, this.scale.orientation);
     this.floorMiddle = this.add.sprite(0, 800, 'floor').setOrigin(0);
     this.floorMiddle.name = "floorMiddle";
-    backgroundOnResize(this.floorMiddle, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorMiddle, this.scale.width, this.scale.height, this.scale.orientation);
     this.floorBottom = this.add.sprite(0, 800, 'floor').setOrigin(0);
     this.floorBottom.name = "floorBottom";
-    backgroundOnResize(this.floorBottom, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorBottom, this.scale.width, this.scale.height, this.scale.orientation);
     this.floorLeft = this.add.sprite(0, 0, 'floor').setOrigin(0);
     this.floorLeft.name = "floorLeft";
     this.floorLeft.rotation = 1.571;
-    backgroundOnResize(this.floorLeft, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorLeft, this.scale.width, this.scale.height, this.scale.orientation);
     this.floorRight = this.add.sprite(this.scale.width, 0, 'floor').setOrigin(0);
     this.floorRight.name = "floorRight";
     this.floorRight.rotation = 1.57;
-    backgroundOnResize(this.floorRight, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorRight, this.scale.width, this.scale.height, this.scale.orientation);
 
 
     // top Bar menu
@@ -121,11 +121,13 @@ function create() {
             level = 3;
             this.plantProgressLine.scaleX = 0;
             this.textLevel.setText('Level 2');
-            backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+            onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
         }
         if(level == 5) {
             this.levelUpSound.play();
             this.popupLevel3.visible = true;
+            this.hand.visible = false;
+            if(!_.isNil(handA)) handA.kill();
             this.plantProgressLine.scaleX = 0;
             this.textLevel.setText('Level 3');
         }
@@ -147,7 +149,7 @@ function create() {
     this.topBar.add([ this.topBarBackground, this.settingsIcon, this.currencyBg, this.plantProgressBg, this.textLevel,
         this.buttonLevelUp, this.textLevelUp, this.oxygenIcon, this.textOxygenCounter, this.plantProgressLine
     ]);
-    backgroundOnResize(this.topBar, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.topBar, this.scale.width, this.scale.height, this.scale.orientation);
     this.snakePlant = this.add.image(0, 0, 'snakePlant1').setOrigin(0);
     this.snakePlant.visible = false;
     this.aloePlant = this.add.image(0, 0, 'aloePlant1').setOrigin(0);
@@ -181,11 +183,8 @@ function create() {
                 this.plantPlace2.setScale(1);
                 this.aloePlant.setTexture('aloePlant3');
                 level = 5;
-               // this.popupLevel3.visible = true;
-              //  this.hand.visible = false;
-               // if(!_.isNil(handA)) handA.kill();
-                backgroundOnResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
-                backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+                onResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
+                onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
             }
         }
     });
@@ -218,7 +217,7 @@ function create() {
                 level = 2;
                 this.snakePlant.setScale(1);
                 this.plantPlace5.setScale(1);
-                backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+                onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
             }
         }
     });
@@ -237,7 +236,7 @@ function create() {
         this.plantPlace5, this.plantPlace6, this.plantPlace7, this.plantPlace8
 
     ]);
-    backgroundOnResize(plantsPlaces, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(plantsPlaces, this.scale.width, this.scale.height, this.scale.orientation);
 
 
     this.popupBg = this.add.image(0, 0, 'popupBg').setOrigin(0);
@@ -253,7 +252,7 @@ function create() {
         this.clickSound.play();
         this.popupLevel2.visible = false;
         level = 4;
-        backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+        onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
     });
     this.buttonLevel2.setScale(1.4);
     this.textLevel2 = this.add.text(283, 660, 'PLANT', { fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF' });
@@ -265,7 +264,7 @@ function create() {
     this.popupLevel2.visible = false;
     this.popupLevel2.add([this.popupBg, this.textCongratulation, this.textReachLevel, this.textAloe, this.textSeed,
         this.buttonLevel2, this.textLevel2, this.popupLevel2PlantBg, this.popupLevel2Plant]);
-    backgroundOnResize(this.popupLevel2, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.popupLevel2, this.scale.width, this.scale.height, this.scale.orientation);
 
 
     this.popupBgLevel3 = this.add.image(0, 0, 'popupBg').setOrigin(0);
@@ -288,14 +287,14 @@ function create() {
     this.popupLevel3.visible = false;
     this.popupLevel3.add([this.popupBgLevel3, this.textCongratulationLevel3, this.textReachLevelLevel3, this.textAloeLevel3,
         this.buttonLevel3, this.textLevel3, this.popupLevel3PlantBg, this.popupLevel3Plant]);
-    backgroundOnResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
 
 
 
 
     this.hand = this.add.sprite(0, 0, 'hand').setOrigin(0);
     this.hand.name = "hand";
-    backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
 
     this.scale.on('resize', resize, this);
 }
@@ -306,20 +305,20 @@ function resize (gameSize)
     var height = gameSize.height;
 
     this.cameras.resize(width, height);
-    backgroundOnResize(this.background, width, height);
-    backgroundOnResize(this.cloud1, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.cloud2, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.cloud3, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.cloud4, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.floorTop, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.floorMiddle, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.floorBottom, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.floorLeft, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.floorRight, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.background, width, height);
+    onResize(this.cloud1, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.cloud2, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.cloud3, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.cloud4, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorTop, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorMiddle, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorBottom, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorLeft, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.floorRight, this.scale.width, this.scale.height, this.scale.orientation);
 
-    backgroundOnResize(this.topBar, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(plantsPlaces, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.popupLevel2, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
-    backgroundOnResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.topBar, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(plantsPlaces, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.popupLevel2, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
 }
