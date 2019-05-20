@@ -68,6 +68,8 @@ var bgConfigVO = {
     }
 };
 function onResize(item, width, height, orientation){
+    if(_.isNil(orientation))
+        orientation = width > height ? Phaser.Scale.LANDSCAPE : Phaser.Scale.PORTRAIT;
     switch (item.name){
         case "background":
             var ratioH = height / bgConfigVO.background.height;
