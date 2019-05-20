@@ -114,7 +114,7 @@ function create() {
     this.buttonLevelUp = this.add.image(300, 7, 'buttonLevelUp').setOrigin(0).setInteractive();
     this.buttonLevelUp.setScale(0.4);
     this.textLevelUp = this.add.text(320, 15, 'LevelUp', { fontFamily: 'Arial', fontSize: 16, color: '#FFFFFF' });
-    this.buttonLevelUp.on('pointerdown', () => {
+    this.buttonLevelUp.on('pointerdown', function() {
         if(level == 2) {
             this.levelUpSound.play();
             this.popupLevel2.visible = true;
@@ -133,11 +133,11 @@ function create() {
         }
         this.buttonLevelUp.setScale(0.4*0.95);
         this.textLevelUp.setScale(0.95);
-    });
-    this.buttonLevelUp.on('pointerup', () => {
+    }.bind(this));
+    this.buttonLevelUp.on('pointerup', function() {
         this.buttonLevelUp.setScale(0.4);
         this.textLevelUp.setScale(1);
-    });
+    }.bind(this));
 
 
     this.oxygenIcon = this.add.image(180, 55, 'oxygenIcon').setOrigin(0);
@@ -157,7 +157,7 @@ function create() {
     // places for plant input
     this.plantPlace1 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace2 = this.add.image(0, 0, 'plantPlace').setOrigin(0).setInteractive();
-    this.plantPlace2.on('pointerdown', () => {
+    this.plantPlace2.on('pointerdown', function() {
         if(level != 4) return;
         if(!this.aloePlant.visible){
             this.placePlantSound.play();
@@ -187,16 +187,16 @@ function create() {
                 onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
             }
         }
-    });
-    this.plantPlace2.on('pointerup', () => {
+    }.bind(this));
+    this.plantPlace2.on('pointerup', function() {
         if(this.counter >= 20 || this.counter < 11) return;
         this.aloePlant.setScale(1);
         this.plantPlace2.setScale(1);
-    });
+    }.bind(this));
     this.plantPlace3 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace4 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace5 = this.add.image(0, 0, 'plantPlace').setOrigin(0).setInteractive();
-    this.plantPlace5.on('pointerdown', () => {
+    this.plantPlace5.on('pointerdown', function() {
         if(this.counter >= 10) return;
         if(!this.snakePlant.visible){
             this.placePlantSound.play();
@@ -220,12 +220,12 @@ function create() {
                 onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
             }
         }
-    });
-    this.plantPlace5.on('pointerup', () => {
+    }.bind(this));
+    this.plantPlace5.on('pointerup', function() {
         if(this.counter >= 10 || this.counter < 1) return;
         this.snakePlant.setScale(1);
         this.plantPlace5.setScale(1);
-    });
+    }.bind(this));
     this.plantPlace6 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace7 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
     this.plantPlace8 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
@@ -247,13 +247,13 @@ function create() {
     this.textAloe = this.add.text(450, 340, 'Aloe vera', { fontFamily: 'Arial', fontSize: 58, color: '#000000' });
     this.textSeed = this.add.text(450, 400, 'Seed', { fontFamily: 'Arial', fontSize: 48, color: '#000000' });
     this.buttonLevel2 = this.add.image(220, 635, 'buttonLevelUp').setOrigin(0).setInteractive();
-    this.buttonLevel2.on('pointerdown', () => {
+    this.buttonLevel2.on('pointerdown', function() {
         if(level != 3) return;
         this.clickSound.play();
         this.popupLevel2.visible = false;
         level = 4;
         onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
-    });
+    }.bind(this));
     this.buttonLevel2.setScale(1.4);
     this.textLevel2 = this.add.text(283, 660, 'PLANT', { fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF' });
     this.popupLevel2PlantBg = this.add.sprite(127, 320, 'blueLine').setOrigin(0);
@@ -274,7 +274,7 @@ function create() {
     this.textReachLevelLevel3 = this.add.text(200, 385, 'LOTUS\nUNLOCKED', {align:'center', fontFamily: 'Arial', fontSize: 64, color: '#000000' });
     this.textAloeLevel3 = this.add.text(170, 620, 'Collect more plants\nin the full game!', {align:'center',  fontFamily: 'Arial', fontSize: 48, color: '#000000' });
     this.buttonLevel3 = this.add.image(185, 875, 'buttonLevelUp').setOrigin(0).setInteractive();
-    this.buttonLevel3.on('pointerdown', () => {
+    this.buttonLevel3.on('pointerdown', function() {
         window.location.href = "http://www.greenpandagames.com";
     });
     this.buttonLevel3.setScale(1.7);
