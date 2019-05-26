@@ -128,7 +128,6 @@ function onResize(gameObjects){
 }
 
 function onResizeItem(item , key){
-console.log(key);
     var height = game.scene.scenes[0].scale.height;
     var width = game.scene.scenes[0].scale.width;
     var orientation = game.scene.scenes[0].scale.orientation;
