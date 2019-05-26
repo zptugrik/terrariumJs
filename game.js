@@ -16,6 +16,7 @@ var game = new Phaser.Game(config);
 var plantsPlaces;
 var level = 1;
 var handA = null;
+var gameObjects = {};
 function preload() {
    // this.load.audio('bgSound', ['assets/audio/background.mp3']);
     this.load.audio('levelUpSound', ['assets/audio/levelUp.mp3']);
@@ -26,6 +27,7 @@ function preload() {
 
     this.load.image('background', 'assets/textures/backgrounds/bg_gradient.png');
     this.load.image('floor', 'assets/textures/backgrounds/floor.png');
+    this.load.image('Hfloor', 'assets/textures/backgrounds/shelf_side.png');
     this.load.image('cloud1', 'assets/textures/backgrounds/cloud1.png');
     this.load.image('cloud2', 'assets/textures/backgrounds/cloud2.png');
     this.load.image('settingsIcon', 'assets/textures/ui/icn_settings.png');
@@ -48,6 +50,7 @@ function preload() {
 }
 
 function create() {
+
    // this.bgSound = this.sound.add('bgSound', { loop: true }).play();
     this.levelUpSound = this.sound.add('levelUpSound', { loop: false });
     this.clickSound = this.sound.add('clickSound', { loop: false });
@@ -55,59 +58,26 @@ function create() {
     this.placePlantSound = this.sound.add('placePlantSound', { loop: false });
 
     this.counter = 0;
-    this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'background').setOrigin(0);
-    this.background.name = "background";
-    onResize(this.background, this.scale.width, this.scale.height);
 
-    this.cloud1 = this.add.sprite(0, 0, 'cloud1').setOrigin(0);
-    this.cloud1.name = "cloud1";
-    onResize(this.cloud1, this.scale.width, this.scale.height, this.scale.orientation);
-    this.cloud2 = this.add.sprite(0, 0, 'cloud1').setOrigin(0);
-    this.cloud2.name = "cloud2";
-    onResize(this.cloud2, this.scale.width, this.scale.height, this.scale.orientation);
-    this.cloud3 = this.add.sprite(0, 0, 'cloud2').setOrigin(0);
-    this.cloud3.name = "cloud3";
-    onResize(this.cloud3, this.scale.width, this.scale.height, this.scale.orientation);
-    this.cloud4 = this.add.sprite(0, 0, 'cloud2').setOrigin(0);
-    this.cloud4.name = "cloud4";
-    onResize(this.cloud4, this.scale.width, this.scale.height, this.scale.orientation);
+    gameObjects.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'background').setOrigin(0);
 
-    this.floorTop = this.add.sprite(0, 800, 'floor').setOrigin(0);
-    this.floorTop.name = "floorTop";
-    onResize(this.floorTop, this.scale.width, this.scale.height, this.scale.orientation);
-    this.floorMiddle = this.add.sprite(0, 800, 'floor').setOrigin(0);
-    this.floorMiddle.name = "floorMiddle";
-    onResize(this.floorMiddle, this.scale.width, this.scale.height, this.scale.orientation);
-    this.floorBottom = this.add.sprite(0, 800, 'floor').setOrigin(0);
-    this.floorBottom.name = "floorBottom";
-    onResize(this.floorBottom, this.scale.width, this.scale.height, this.scale.orientation);
-    this.floorLeft = this.add.sprite(0, 0, 'floor').setOrigin(0);
-    this.floorLeft.name = "floorLeft";
-    this.floorLeft.rotation = 1.571;
-    onResize(this.floorLeft, this.scale.width, this.scale.height, this.scale.orientation);
-    this.floorRight = this.add.sprite(this.scale.width, 0, 'floor').setOrigin(0);
-    this.floorRight.name = "floorRight";
-    this.floorRight.rotation = 1.57;
-    onResize(this.floorRight, this.scale.width, this.scale.height, this.scale.orientation);
+
+    gameObjects.cloud1 = this.add.sprite(0, 0, 'cloud1').setOrigin(0);
+    gameObjects.cloud2 = this.add.sprite(0, 0, 'cloud1').setOrigin(0);
+    gameObjects.cloud3 = this.add.sprite(0, 0, 'cloud2').setOrigin(0);
+    gameObjects.cloud4 = this.add.sprite(0, 0, 'cloud2').setOrigin(0);
+
+    gameObjects.floorTop = this.add.sprite(0, 0, 'floor').setOrigin(0);
+    gameObjects.floorMiddle =this.add.sprite(0, 0, 'floor').setOrigin(0);
+    gameObjects.floorBottom = this.add.sprite(0, 350, 'floor').setOrigin(0);
+    gameObjects.floorLeft = this.add.sprite(0, 0, 'Hfloor').setOrigin(0);
+    gameObjects.floorRight = this.add.sprite(200, 0, 'Hfloor').setOrigin(0);
+
 
 
     // top Bar menu
-    this.topBarBackground = this.add.graphics();
-    this.topBarBackground.fillStyle(0xffffff, 1);
-    this.topBarBackground.fillRoundedRect(0, 0, 400, 50, { tl: 0, tr: 0, bl: 16, br: 16 });
-
-    this.settingsIcon = this.add.sprite(10, 10, 'settingsIcon').setOrigin(0);
-    this.settingsIcon.setScale(0.7);
-
-    this.currencyBg = this.add.sprite(119*1.08, 35, 'currencyBg').setOrigin(0);
-    this.currencyBg.setScale(0.9);
-
-    this.plantProgressBg = this.add.sprite(125, 20, 'plant_level_progress_bg').setOrigin(0);
-    this.plantProgressBg.scaleX = 1.4;
-
     this.plantProgressLine =  this.add.sprite(127, 20, 'blueLine').setOrigin(0);
-    this.plantProgressLine.scaleX = 0;
-    this.plantProgressLine.scaleY = 0.13;
+    this.plantProgressLine.setScale(0, 0.13);
 
     this.textLevel = this.add.text(60, 15, 'Level 1', { fontFamily: 'Arial', fontSize: 16, color: '#000000' });
 
@@ -117,16 +87,16 @@ function create() {
     this.buttonLevelUp.on('pointerdown', function() {
         if(level == 2) {
             this.levelUpSound.play();
-            this.popupLevel2.visible = true;
+            gameObjects.popupLevel2.visible = true;
             level = 3;
             this.plantProgressLine.scaleX = 0;
             this.textLevel.setText('Level 2');
-            onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+            onResizeItem(gameObjects.hand, "hand");
         }
-        if(level == 5 && this.popupLevel3.visible == false) {
+        if(level == 5 && gameObjects.popupLevel3.visible == false) {
             this.levelUpSound.play();
-            this.popupLevel3.visible = true;
-            this.hand.visible = false;
+            gameObjects.popupLevel3.visible = true;
+            gameObjects.hand.visible = false;
             if(!_.isNil(handA)) handA.kill();
             this.plantProgressLine.scaleX = 0;
             this.textLevel.setText('Level 3');
@@ -139,32 +109,82 @@ function create() {
         this.textLevelUp.setScale(1);
     }.bind(this));
 
-
     this.oxygenIcon = this.add.image(180, 55, 'oxygenIcon').setOrigin(0);
     this.oxygenIcon.setScale(0.5);
     this.textOxygenCounter = this.add.text(210, 54, '0', { fontFamily: 'Arial', fontSize: 16, color: '#000000' });
 
-    this.topBar = this.add.container(0, 0);
-    this.topBar.name = "topBar";
-    this.topBar.add([ this.topBarBackground, this.settingsIcon, this.currencyBg, this.plantProgressBg, this.textLevel,
+    gameObjects.topBar = this.add.container(0, 0);
+    gameObjects.topBar.name = "topBar";
+    gameObjects.topBar.add([
+        this.add.graphics().fillStyle(0xffffff, 1).fillRoundedRect(0, 0, 400, 50, { tl: 0, tr: 0, bl: 16, br: 16 }),
+        this.add.sprite(10, 10, 'settingsIcon').setOrigin(0).setScale(0.7),
+        this.add.sprite(119*1.08, 35, 'currencyBg').setOrigin(0).setScale(0.9),
+        this.add.sprite(125, 20, 'plant_level_progress_bg').setOrigin(0).setScale(1.4, 1),
+        this.textLevel,
         this.buttonLevelUp, this.textLevelUp, this.oxygenIcon, this.textOxygenCounter, this.plantProgressLine
     ]);
-    onResize(this.topBar, this.scale.width, this.scale.height, this.scale.orientation);
-    this.snakePlant = this.add.image(0, 0, 'snakePlant1').setOrigin(0);
-    this.snakePlant.visible = false;
-    this.aloePlant = this.add.image(0, 0, 'aloePlant1').setOrigin(0);
-    this.aloePlant.visible = false;
+
+    gameObjects.snakePlant = this.add.image(0, 0, 'snakePlant1').setOrigin(0);
+    gameObjects.snakePlant.visible = false;
+    gameObjects.aloePlant = this.add.image(0, 0, 'aloePlant1').setOrigin(0);
+    gameObjects.aloePlant.visible = false;
+
+    gameObjects.plus1 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus1.visible = false;
+    gameObjects.plus2 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus2.visible = false;
+    gameObjects.plus3 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus3.visible = false;
+    gameObjects.plus4 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus4.visible = false;
+    gameObjects.plus5 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus5.visible = false;
+    gameObjects.plus6 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus6.visible = false;
+    gameObjects.plus7 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus7.visible = false;
+    gameObjects.plus8 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus8.visible = false;
+    gameObjects.plus9 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus9.visible = false;
+    gameObjects.plus10 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus10.visible = false;
+
+    gameObjects.plus11 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus11.visible = false;
+    gameObjects.plus12 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus12.visible = false;
+    gameObjects.plus13 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus13.visible = false;
+    gameObjects.plus14 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus14.visible = false;
+    gameObjects.plus15 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus15.visible = false;
+    gameObjects.plus16 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus16.visible = false;
+    gameObjects.plus17 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus17.visible = false;
+    gameObjects.plus18 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus18.visible = false;
+    gameObjects.plus19 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus19.visible = false;
+    gameObjects.plus20 = this.add.text(0, 0, '+1', { fontFamily: 'Arial', fontSize: 64, color: '#ffffff' });
+    gameObjects.plus20.visible = false;
+
+
+    gameObjects.oxygen = this.add.image(0, 0, 'oxygenIcon').setOrigin(0);
+    gameObjects.oxygen.alpha = 0;
     // places for plant input
-    this.plantPlace1 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
-    this.plantPlace2 = this.add.image(0, 0, 'plantPlace').setOrigin(0).setInteractive();
-    this.plantPlace2.on('pointerdown', function() {
+    gameObjects.plantPlace1 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
+    gameObjects.plantPlace2 = this.add.image(0, 0, 'plantPlace').setOrigin(0).setInteractive();
+    gameObjects.plantPlace2.on('pointerdown', function() {
         if(level != 4) return;
-        if(!this.aloePlant.visible){
+        if(!gameObjects.aloePlant.visible){
             this.placePlantSound.play();
-            this.plantPlace2.setTexture('pot');
-            this.plantPlace2.setPosition(this.plantPlace2.x, this.plantPlace2.y - 20);
-            this.aloePlant.setPosition(this.plantPlace2.x, this.plantPlace2.y - 10);
-            this.aloePlant.visible = true;
+            gameObjects.plantPlace2.setTexture('pot');
+            bgConfigVO["portrait-primary"]["plantPlace2"].position.y -=4;
+            onResizeItem(gameObjects.plantPlace2, "plantPlace2");
+            gameObjects.aloePlant.visible = true;
         }
         else{
             this.clickPlantSound.play();
@@ -172,130 +192,164 @@ function create() {
 
             this.textOxygenCounter.setText(this.counter);
             this.plantProgressLine.scaleX += 0.65/10;
+            gameObjects.plantPlace2.__scaleX = gameObjects.plantPlace2.scaleX;
+            gameObjects.plantPlace2.__scaleY = gameObjects.plantPlace2.scaleY;
+            gameObjects.plantPlace2.__x = gameObjects.plantPlace2.x;
+            gameObjects.plantPlace2.__y = gameObjects.plantPlace2.y;
+
+            gameObjects.plantPlace2.scaleY *= 0.95;
+            gameObjects.plantPlace2.scaleX *= 0.95;
+            gameObjects.plantPlace2.x += gameObjects.plantPlace2.width * gameObjects.plantPlace2.scaleX * 0.05/2;
+            gameObjects.plantPlace2.y += gameObjects.plantPlace2.height * gameObjects.plantPlace2.scaleY * 0.05/2;
+
+            gameObjects.aloePlant.__scaleX = gameObjects.aloePlant.scaleX;
+            gameObjects.aloePlant.__scaleY = gameObjects.aloePlant.scaleY;
+            gameObjects.aloePlant.__x = gameObjects.aloePlant.x;
+            gameObjects.aloePlant.__y = gameObjects.aloePlant.y;
+
+            gameObjects.aloePlant.scaleY *= 0.95;
+            gameObjects.aloePlant.scaleX *= 0.95;
+            gameObjects.aloePlant.x += gameObjects.aloePlant.width * gameObjects.aloePlant.scaleX * 0.05/2;
+            gameObjects.aloePlant.y += gameObjects.aloePlant.height * gameObjects.aloePlant.scaleY * 0.05/2;
+
+            TweenMax.delayedCall(0.1, function(){
+                gameObjects.plantPlace2.scaleX = gameObjects.plantPlace2.__scaleX;
+                gameObjects.plantPlace2.scaleY = gameObjects.plantPlace2.__scaleY;
+                gameObjects.plantPlace2.x = gameObjects.plantPlace2.__x;
+                gameObjects.plantPlace2.y = gameObjects.plantPlace2.__y;
+
+                gameObjects.aloePlant.scaleX = gameObjects.aloePlant.__scaleX;
+                gameObjects.aloePlant.scaleY = gameObjects.aloePlant.__scaleY;
+                gameObjects.aloePlant.x = gameObjects.aloePlant.__x;
+                gameObjects.aloePlant.y = gameObjects.aloePlant.__y;
+            });
+
+            if(!tl_oxygen.isActive()){
+                tl_oxygen.play(0);
+            }
+            plusOneAnimation(gameObjects["plus" + this.counter]);
             if(this.counter == 15) {
-                this.aloePlant.setTexture('aloePlant2');
-                this.aloePlant.setPosition(this.plantPlace2.x, this.plantPlace2.y + 10);
+                gameObjects.aloePlant.setTexture('aloePlant2');
             }
-            this.aloePlant.setScale(0.95);
-            this.plantPlace2.setScale(0.95);
             if(this.counter == 20) {
-                this.aloePlant.setScale(1);
-                this.plantPlace2.setScale(1);
-                this.aloePlant.setTexture('aloePlant3');
                 level = 5;
-                onResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
-                onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+                gameObjects.aloePlant.setTexture('aloePlant3');
+                onResizeItem(gameObjects.hand, "hand");
+
             }
         }
     }.bind(this));
-    this.plantPlace2.on('pointerup', function() {
-        if(this.counter >= 20 || this.counter < 11) return;
-        this.aloePlant.setScale(1);
-        this.plantPlace2.setScale(1);
-    }.bind(this));
-    this.plantPlace3 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
-    this.plantPlace4 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
-    this.plantPlace5 = this.add.image(0, 0, 'plantPlace').setOrigin(0).setInteractive();
-    this.plantPlace5.on('pointerdown', function() {
+    gameObjects.plantPlace3 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
+    gameObjects.plantPlace4 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
+    gameObjects.plantPlace5 = this.add.image(0, 0, 'plantPlace').setOrigin(0, 0).setInteractive();
+
+    gameObjects.plantPlace5.on('pointerdown', function() {
         if(this.counter >= 10) return;
-        if(!this.snakePlant.visible){
+
+        var snakePlant = gameObjects.snakePlant;
+        if(!snakePlant.visible){
             this.placePlantSound.play();
-            this.plantPlace5.setTexture('pot');
-            this.snakePlant.setPosition(this.plantPlace5.x, this.plantPlace5.y - 40);
-            this.snakePlant.visible = true;
+            gameObjects.plantPlace5.setTexture('pot');
+            bgConfigVO["portrait-primary"]["plantPlace5"].position.y -=4;
+            onResizeItem(gameObjects.plantPlace5, "plantPlace5");
+            snakePlant.visible = true;
         }
         else{
             this.clickPlantSound.play();
             this.counter++;
-            this.snakePlant.setScale(0.95);
-            this.plantPlace5.setScale(0.95);
+
             this.textOxygenCounter.setText(this.counter);
             this.plantProgressLine.scaleX += 0.65/10;
-            if(this.counter == 5) this.snakePlant.setTexture('snakePlant2');
+            if(this.counter > 0){
+                gameObjects.plantPlace5.__scaleX = gameObjects.plantPlace5.scaleX;
+                gameObjects.plantPlace5.__scaleY = gameObjects.plantPlace5.scaleY;
+                gameObjects.plantPlace5.__x = gameObjects.plantPlace5.x;
+                gameObjects.plantPlace5.__y = gameObjects.plantPlace5.y;
+
+                gameObjects.plantPlace5.scaleY *= 0.95;
+                gameObjects.plantPlace5.scaleX *= 0.95;
+                gameObjects.plantPlace5.x += gameObjects.plantPlace5.width * gameObjects.plantPlace5.scaleX * 0.05/2;
+                gameObjects.plantPlace5.y += gameObjects.plantPlace5.height * gameObjects.plantPlace5.scaleY  * 0.05/2;
+
+                snakePlant.__scaleX = snakePlant.scaleX;
+                snakePlant.__scaleY = snakePlant.scaleY;
+                snakePlant.scaleY *= 0.95;
+                snakePlant.scaleX *= 0.95;
+                snakePlant.x += snakePlant.width * snakePlant.scaleX * 0.05/2;
+                snakePlant.y += snakePlant.height * snakePlant.scaleY * 0.05/2;
+
+                TweenMax.delayedCall(0.1, function(){
+                    gameObjects.plantPlace5.scaleX = gameObjects.plantPlace5.__scaleX;
+                    gameObjects.plantPlace5.scaleY = gameObjects.plantPlace5.__scaleY;
+                    gameObjects.plantPlace5.x = gameObjects.plantPlace5.__x;
+                    gameObjects.plantPlace5.y = gameObjects.plantPlace5.__y;
+
+                    snakePlant.scaleX = snakePlant.__scaleX;
+                    snakePlant.scaleY = snakePlant.__scaleY;
+                    snakePlant.x -= snakePlant.width * snakePlant.scaleX * 0.05/2;
+                    snakePlant.y -= snakePlant.height * snakePlant.scaleY * 0.05/2;
+                });
+
+                if(!tl_oxygen.isActive()){
+                    tl_oxygen.play(0);
+                }
+            }
+            plusOneAnimation(gameObjects["plus" + this.counter]);
+            if(this.counter == 5) snakePlant.setTexture('snakePlant2');
             if(this.counter == 10) {
-                this.snakePlant.setTexture('snakePlant3');
                 level = 2;
-                this.snakePlant.setScale(1);
-                this.plantPlace5.setScale(1);
-                onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
+                snakePlant.setTexture('snakePlant3');
+                onResizeItem(gameObjects.hand, "hand");
             }
         }
     }.bind(this));
-    this.plantPlace5.on('pointerup', function() {
-        if(this.counter >= 10 || this.counter < 1) return;
-        this.snakePlant.setScale(1);
-        this.plantPlace5.setScale(1);
-    }.bind(this));
-    this.plantPlace6 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
-    this.plantPlace7 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
-    this.plantPlace8 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
-    plantsPlaces = this.add.container(0, 0);
-    plantsPlaces.name = "plantsPlaces";
-    plantsPlaces.add([this.snakePlant, this.aloePlant,
-        this.plantPlace1, this.plantPlace2, this.plantPlace3, this.plantPlace4,
-        this.plantPlace5, this.plantPlace6, this.plantPlace7, this.plantPlace8
 
-    ]);
-    onResize(plantsPlaces, this.scale.width, this.scale.height, this.scale.orientation);
-
-
-    this.popupBg = this.add.image(0, 0, 'popupBg').setOrigin(0);
-    this.popupBg.scaleX = 3;
-    this.popupBg.scaleY = 3.2;
-    this.textCongratulation = this.add.text(210, 54, 'CONGRATZ!', { fontFamily: 'Arial', fontSize: 64, color: '#000000' });
-    this.textReachLevel = this.add.text(100, 140, 'You reached level 2', { fontFamily: 'Arial', fontSize: 64, color: '#000000' });
-    this.textAloe = this.add.text(450, 340, 'Aloe vera', { fontFamily: 'Arial', fontSize: 58, color: '#000000' });
-    this.textSeed = this.add.text(450, 400, 'Seed', { fontFamily: 'Arial', fontSize: 48, color: '#000000' });
-    this.buttonLevel2 = this.add.image(220, 635, 'buttonLevelUp').setOrigin(0).setInteractive();
-    this.buttonLevel2.on('pointerdown', function() {
-        if(level != 3) return;
-        this.clickSound.play();
-        this.popupLevel2.visible = false;
-        level = 4;
-        onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
-    }.bind(this));
-    this.buttonLevel2.setScale(1.4);
-    this.textLevel2 = this.add.text(283, 660, 'PLANT', { fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF' });
-    this.popupLevel2PlantBg = this.add.sprite(127, 320, 'blueLine').setOrigin(0);
-    this.popupLevel2PlantBg.scaleY = 2.2;
-    this.popupLevel2Plant = this.add.sprite(140, 185, 'aloePlant1').setOrigin(0);
-    this.popupLevel2 = this.add.container(0, 0);
-    this.popupLevel2.name = "popupLevel2";
-    this.popupLevel2.visible = false;
-    this.popupLevel2.add([this.popupBg, this.textCongratulation, this.textReachLevel, this.textAloe, this.textSeed,
-        this.buttonLevel2, this.textLevel2, this.popupLevel2PlantBg, this.popupLevel2Plant]);
-    onResize(this.popupLevel2, this.scale.width, this.scale.height, this.scale.orientation);
-
-
-    this.popupBgLevel3 = this.add.image(0, 0, 'popupBg').setOrigin(0);
-    this.popupBgLevel3.scaleX = 3;
-    this.popupBgLevel3.scaleY = 3.2;
-    this.textCongratulationLevel3 = this.add.text(210, 54, 'GREAT JOB!', { fontFamily: 'Arial', fontSize: 64, color: '#000000' });
-    this.textReachLevelLevel3 = this.add.text(200, 385, 'LOTUS\nUNLOCKED', {align:'center', fontFamily: 'Arial', fontSize: 64, color: '#000000' });
-    this.textAloeLevel3 = this.add.text(170, 620, 'Collect more plants\nin the full game!', {align:'center',  fontFamily: 'Arial', fontSize: 48, color: '#000000' });
-    this.buttonLevel3 = this.add.image(185, 875, 'buttonLevelUp').setOrigin(0).setInteractive();
-    this.buttonLevel3.on('pointerdown', function() {
-        window.location.href = "http://www.greenpandagames.com";
-    });
-    this.buttonLevel3.setScale(1.7);
-    this.textLevel3 = this.add.text(210, 915, 'CONTINUE', { fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF' });
-    this.popupLevel3PlantBg = this.add.sprite(270, 135, 'blueLine').setOrigin(0);
-    this.popupLevel3PlantBg.scaleY = 2.2;
-    this.popupLevel3Plant = this.add.sprite(280, 40, 'lotusPlant').setOrigin(0);
-    this.popupLevel3 = this.add.container(0, 0);
-    this.popupLevel3.name = "popupLevel3";
-    this.popupLevel3.visible = false;
-    this.popupLevel3.add([this.popupBgLevel3, this.textCongratulationLevel3, this.textReachLevelLevel3, this.textAloeLevel3,
-        this.buttonLevel3, this.textLevel3, this.popupLevel3PlantBg, this.popupLevel3Plant]);
-    onResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
+    gameObjects.plantPlace6 = this.add.image(100, 50, 'plantPlace').setOrigin(0);
+    gameObjects.plantPlace7 = this.add.image(0, 0, 'plantPlace').setOrigin(0);
+    gameObjects.plantPlace8 = this.add.image(700, 520, 'plantPlace').setOrigin(0);
 
 
 
+    gameObjects.popupLevel2 = this.add.container(0, 0);
+    gameObjects.popupLevel2.visible = false;
+    gameObjects.popupLevel2.add([
+        this.add.image(0, 0, 'popupBg').setOrigin(0, 0).setScale(3, 3.2),
+        this.add.text(210, 54, 'CONGRATZ!', { fontFamily: 'Arial', fontSize: 64, color: '#000000' }),
+        this.add.text(100, 140, 'You reached level 2', { fontFamily: 'Arial', fontSize: 64, color: '#000000' }),
+        this.add.text(450, 340, 'Aloe vera', { fontFamily: 'Arial', fontSize: 58, color: '#000000' }),
+        this.add.text(450, 400, 'Seed', { fontFamily: 'Arial', fontSize: 48, color: '#000000' }),
+        this.add.image(220, 635, 'buttonLevelUp').setOrigin(0).setInteractive().on('pointerdown', function() {
+            if(level != 3) return;
+            this.clickSound.play();
+            gameObjects.popupLevel2.visible = false;
+            level = 4;
+            onResizeItem(gameObjects.hand, "hand");
+        }.bind(this)).setScale(1.45),
+        this.add.text(283, 660, 'PLANT', { fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF' }),
+        this.add.sprite(127, 290, 'blueLine').setScale(1, 2.2).setOrigin(0),
+        this.add.sprite(140, 155, 'aloePlant1').setOrigin(0)]);
 
-    this.hand = this.add.sprite(0, 0, 'hand').setOrigin(0);
-    this.hand.name = "hand";
-    onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
 
+    gameObjects.popupLevel3 = this.add.container(0, 0);
+    gameObjects.popupLevel3.visible = false;
+    gameObjects.popupLevel3.add([
+        this.add.image(0, 0, 'popupBg').setOrigin(0).setScale(3, 3.2),
+        this.add.text(210, 54, 'GREAT JOB!', { fontFamily: 'Arial', fontSize: 64, color: '#000000' }),
+        this.add.text(200, 385, 'LOTUS\nUNLOCKED', {align:'center', fontFamily: 'Arial', fontSize: 64, color: '#000000' }),
+        this.add.text(170, 620, 'Collect more plants\nin the full game!', {align:'center',  fontFamily: 'Arial', fontSize: 48, color: '#000000' }),
+        this.add.image(185, 875, 'buttonLevelUp').setOrigin(0).setInteractive().on('pointerdown', function() {
+            window.location.href = "http://www.greenpandagames.com";
+        }).setScale(1.7),
+        this.add.text(210, 915, 'CONTINUE', { fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF' }),
+        this.add.sprite(270, 135, 'blueLine').setOrigin(0).setScale(1, 2.2),
+        this.add.sprite(280, 40, 'lotusPlant').setOrigin(0)]);
+
+    gameObjects.hand = this.add.sprite(0, 0, 'hand').setOrigin(0);
+    gameObjects.hand.name = "hand";
+
+
+
+    onResize(gameObjects);
     this.scale.on('resize', resize, this);
 }
 
@@ -305,20 +359,6 @@ function resize (gameSize)
     var height = gameSize.height;
 
     this.cameras.resize(width, height);
-    onResize(this.background, width, height);
-    onResize(this.cloud1, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.cloud2, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.cloud3, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.cloud4, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.floorTop, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.floorMiddle, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.floorBottom, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.floorLeft, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.floorRight, this.scale.width, this.scale.height, this.scale.orientation);
+    onResize(gameObjects);
 
-    onResize(this.topBar, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(plantsPlaces, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.popupLevel2, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.popupLevel3, this.scale.width, this.scale.height, this.scale.orientation);
-    onResize(this.hand, this.scale.width, this.scale.height, this.scale.orientation);
 }

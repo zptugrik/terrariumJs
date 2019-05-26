@@ -1,201 +1,219 @@
 var bgConfigVO = {
     background : {height: 1704},
-    floor: {
-        width: 600,
-        scaleY: {landscape: 0.6, portrait: 1.7},
-        position: {
-            "floorTop": {landscape: {y: 0.35}, portrait: {y: 0.35}},
-            "floorMiddle": {landscape: {y: 0.6}, portrait: {y: 0.6}},
-            "floorBottom": {landscape: {y: 0.85}, portrait: {y: 0.85}}
-        }
-    },
-    cloud: {
-        scale: {
-            "cloud1": {landscape: 0.5, portrait: 1},
-            "cloud2": {landscape: 0.6, portrait: 0.7},
-            "cloud3": {landscape: 0.6, portrait: 0.7},
-            "cloud4": {landscape: 0.5, portrait: 0.9}
+    "portrait-primary":
+        {
+            topBar : { scale: {x: 2.45, y: 2.45}, position: {x: 0, y: 0}},
+            cloud1 : { scale: {x: 1, y: 1}, position: {x: 200, y: 100}},
+            cloud2 : { scale: {x: 0.7, y: 0.7}, position: {x: 700, y: 200}},
+            cloud3 : { scale: {x: 0.7, y: 0.7}, position: {x: 300, y: 500}},
+            cloud4 : { scale: {x: 0.9, y: 0.9}, position: {x: 700, y: 700}},
+
+            floorLeft: {scale: {x:1, y: 1.8}, position: {x: 0,y: 0}},
+            floorRight: {scale: {x: -1, y: 1.8}, position: {x: 1000,y: 0}},
+            floorTop: {scale: {x: 1.6, y: 1.6}, position: {x: 0, y: 410}},
+            floorMiddle: {scale: {x: 1.6, y: 1.6}, position: {x: 0, y: 645}},
+            floorBottom: {scale: {x: 1.6, y: 1.6}, position: {x: 0, y: 880}},
+
+            plantPlace1 : { scale: {x: 1, y: 1}, position: {x: 45, y: 440}},
+            plantPlace2 : { scale: {x: 1, y: 1}, position: {x: 280, y: 440}},
+            plantPlace3 : { scale: {x: 1, y: 1}, position: {x: 515, y: 440}},
+            plantPlace4 : { scale: {x: 1, y: 1}, position: {x: 750, y: 440}},
+            plantPlace5 : { scale: {x: 1, y: 1}, position: {x: 45, y: 675}},
+            plantPlace6 : { scale: {x: 1, y: 1}, position: {x: 280, y: 675}},
+            plantPlace7 : { scale: {x: 1, y: 1}, position: {x: 515, y: 675}},
+            plantPlace8 : { scale: {x: 1, y: 1}, position: {x: 750, y: 675}},
+
+            snakePlant : { scale: {x: 0.8, y: 0.8}, position: {x: 68, y: 685}},
+            aloePlant : { scale: {x: 0.8, y: 0.8}, position: {x: 300, y: 470}},
+            popupLevel2 : { scale: {x: 1, y: 1}, position: {x: 105, y: 200}},
+            popupLevel3 : { scale: {x: 1, y: 1}, position: {x: 110, y: 200}},
+            hand: { scale: {x: 0.6, y: 0.6}, position: {
+                    level1: {x:50, y: 700},
+                    level2: {x:760, y: 150},
+                    level3: {x:380, y: 700},
+                    level4: {x:280, y: 470},
+                    level5: {x:760, y: 150}
+                }
+            },
+            oxygen : { scale: {x: 1.5, y: 1.5}, position: {x: 133, y: 810}},
+
+            plus1 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus2 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus3 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus4 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus5 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus6 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus7 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus8 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus9 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+            plus10 : { scale: {x: 1, y: 0.8}, position: {x: 100, y: 825}},
+
+            plus11 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus12 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus13 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus14 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus15 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus16 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus17 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus18 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus19 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}},
+            plus20 : { scale: {x: 1, y: 0.8}, position: {x: 335, y: 590}}
         },
-        position: {
-            "cloud1": {landscape: {x: 0.65, y: 0.15}, portrait: {x: 0.2, y: 0.1}},
-            "cloud2": {landscape: {x: 0.25, y: 0.65}, portrait: {x: 0.7, y: 0.2}},
-            "cloud3": {landscape: {x: 0.1, y: 0.05}, portrait: {x: 0.3, y: 0.5}},
-            "cloud4": {landscape: {x: 0.4, y: 0.25}, portrait: {x: 0.7, y: 0.7}}
+    "landscape-primary":
+        {
+            topBar : { scale: {x: 0.9, y: 3}, position: {x: 305, y: 0}},
+            cloud1 : { scale: {x: 0.5, y: 1.5}, position: {x: 650, y: 150}},
+            cloud2 : { scale: {x: 0.6, y: 1.8}, position: {x: 250, y: 650}},
+            cloud3 : { scale: {x: 0.6, y: 1.8}, position: {x: 100, y: 50}},
+            cloud4 : { scale: {x: 0.5, y: 1.8}, position: {x: 400, y: 250}},
+
+            floorLeft: {scale: {x: 0.4, y: 1.1}, position: {x: 0,y: 0}},
+            floorRight: {scale: {x: -0.4, y: 1.1}, position: {x: 1000,y: 0}},
+            floorTop: {scale: {x: 2.5, y: 1.8}, position: {x: 0, y: 390}},
+            floorMiddle: {scale: {x: 2.5, y: 1.8}, position: {x: 0, y: 655}},
+            floorBottom: {scale: {x: 2.5, y: 1.8}, position: {x: 0, y: 920}},
+
+            plantPlace1 : { scale: {x: 0.3, y: 1}, position: {x: 170, y: 445}},
+            plantPlace2 : { scale: {x: 0.3, y: 1}, position: {x: 360, y: 445}},
+            plantPlace3 : { scale: {x: 0.3, y: 1}, position: {x: 550, y: 445}},
+            plantPlace4 : { scale: {x: 0.3, y: 1}, position: {x: 740, y: 445}},
+            plantPlace5 : { scale: {x: 0.3, y: 1}, position: {x: 170, y: 710}},
+            plantPlace6 : { scale: {x: 0.3, y: 1}, position: {x: 360, y: 710}},
+            plantPlace7 : { scale: {x: 0.3, y: 1}, position: {x: 550, y: 710}},
+            plantPlace8 : { scale: {x: 0.3, y: 1}, position: {x: 740, y: 710}},
+
+            snakePlant : { scale: {x: 0.3, y: 1}, position: {x: 170, y: 690}},
+            aloePlant : { scale: {x: 0.3, y: 1}, position: {x: 360, y: 450}},
+
+            popupLevel2 : { scale: {x: 0.3, y: 1}, position: {x: 368, y: 250}},
+            popupLevel3 : { scale: {x: 0.3, y: 1}, position: {x: 368, y: 200}},
+
+            hand: { scale: {x: 0.26, y: 0.8}, position: {
+                        level1: {x: 160, y: 700},
+                        level2: {x:580, y: 170},
+                        level3: {x:440, y:760},
+                        level4: {x:340, y:430},
+                        level5: {x:580, y:170}
+                    }
+            },
+            oxygen : { scale: {x: 0.46, y: 1.5}, position: {x: 195, y: 850}},
+            plus1 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus2 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus3 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus4 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus5 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus6 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus7 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus8 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus9 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+            plus10 : { scale: {x: 0.3, y: 1}, position: {x: 190, y: 870}},
+
+            plus11 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus12 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus13 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus14 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus15 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus16 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus17 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus18 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus19 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}},
+            plus20 : { scale: {x: 0.3, y: 1}, position: {x: 380, y: 605}}
         }
-    },
-    topBars: {
-        scale: {
-            topBar: { landscape: 1, portrait: 2.45}
-        },
-        position: {
-            topBar: {landscape: -150, portrait: -100}
-        }
-    },
-    plantsPlaces: {
-        scale: {
-             landscape: 0.26, portrait: 1
-        },
-        position: {
-            shift: {landscape: {x: 680, y: 4, secondRowY: 0.93}, portrait: {x: 20, y: 20, secondRowY: 0.245}}
-        }
-    },
-    popupLevel2: {
-        scale: {
-            landscape: 0.26, portrait: 1
-        },
-        position: {
-            shift: {landscape: {x: 680, y: 4, secondRowY: 0.93}, portrait: {x: 20, y: 20, secondRowY: 0.245}}
-        }
-    },
-    popupLevel3: {
-        scale: {
-            landscape: 0.26, portrait: 1
-        },
-        position: {
-            shift: {landscape: {x: 680, y: 4, secondRowY: 0.93}, portrait: {x: 20, y: 20, secondRowY: 0.245}}
-        }
-    },
-    hand: {
-        scale:
-            {landscape: 0.26, portrait: 0.8},
-        position: {
-            level1: {landscape: {x:325, y:0.7}, portrait: {x:0.03, y: 0.7}},
-            level2: {landscape: {x:-100, y:0.15}, portrait: {x:0.7, y: 0.1}},
-            level3: {landscape: {x:45, y:0.8}, portrait: {x:0.35, y: 0.6}},
-            level4: {landscape: {x:137, y:0.65}, portrait: {x:0.25, y: 0.5}},
-            level5: {landscape: {x:-100, y:0.15}, portrait: {x:0.7, y: 0.1}}
-        }
-    }
 };
-function onResize(item, width, height, orientation){
+
+function onResize(gameObjects){
+    _.forEach(gameObjects, function(item, key) {
+        onResizeItem(item, key);
+    });
+}
+
+function onResizeItem(item , key){
+console.log(key);
+    var height = game.scene.scenes[0].scale.height;
+    var width = game.scene.scenes[0].scale.width;
+    var orientation = game.scene.scenes[0].scale.orientation;
     if(_.isNil(orientation))
         orientation = width > height ? Phaser.Scale.LANDSCAPE : Phaser.Scale.PORTRAIT;
-    switch (item.name){
+    switch (key){
+
+
         case "background":
-            var ratioH = height / bgConfigVO.background.height;
-            item.setSize(width, height);
-            if( ratioH > 1) item.scaleY = ratioH;
-            break;
-        case "floorLeft":
-            item.scaleX = height / bgConfigVO.floor.width;
-            if (orientation === Phaser.Scale.PORTRAIT) {item.scaleY = -bgConfigVO.floor.scaleY.portrait;}
-            else if (orientation === Phaser.Scale.LANDSCAPE) {item.scaleY = -bgConfigVO.floor.scaleY.landscape;}
-            break;
-        case "floorRight":
-            item.scaleX = height / bgConfigVO.floor.width;
-            if (orientation === Phaser.Scale.PORTRAIT) {item.scaleY = bgConfigVO.floor.scaleY.portrait;}
-            else if (orientation === Phaser.Scale.LANDSCAPE) {item.scaleY = bgConfigVO.floor.scaleY.landscape;}
-            break;
-        case "floorTop":
-        case "floorMiddle":
-        case "floorBottom":
-            item.scaleX = width / bgConfigVO.floor.width;
-            if (orientation === Phaser.Scale.PORTRAIT) {
-                item.scaleY = bgConfigVO.floor.scaleY.portrait;
-                item.y = height * bgConfigVO.floor.position[item.name].portrait.y;
-            }
-            else if (orientation === Phaser.Scale.LANDSCAPE) {
-                item.scaleY = bgConfigVO.floor.scaleY.landscape;
-                item.y = height * bgConfigVO.floor.position[item.name].landscape.y;
-            }
-            break;
+        var ratioH = height / bgConfigVO.background.height;
+        item.setSize(width, height);
+        if( ratioH > 1) item.scaleY = ratioH;
+        break;
+
+
         case "cloud1":
         case "cloud2":
         case "cloud3":
         case "cloud4":
-            if (orientation === Phaser.Scale.PORTRAIT) {
-                item.setScale(bgConfigVO.cloud.scale[item.name].portrait);
-                item.setPosition(width * bgConfigVO.cloud.position[item.name].portrait.x,
-                    height * bgConfigVO.cloud.position[item.name].portrait.y);
-            }
-            else if (orientation === Phaser.Scale.LANDSCAPE) {
-                item.setScale(bgConfigVO.cloud.scale[item.name].landscape);
-                item.setPosition(width * bgConfigVO.cloud.position[item.name].landscape.x,
-                    height * bgConfigVO.cloud.position[item.name].landscape.y);
-            }
-            break;
-        case "topBar":
-            if (orientation === Phaser.Scale.PORTRAIT) {
-                item.setScale(bgConfigVO.topBars.scale.topBar.portrait);
-                item.x = 0;
-            }
-            else if (orientation === Phaser.Scale.LANDSCAPE) {
-                item.x = width/2 - 200;
-                item.setScale(bgConfigVO.topBars.scale.topBar.landscape);
-            }
-            break;
-        case "plantsPlaces":
-            if (orientation === Phaser.Scale.PORTRAIT) {
-                item.setScale(bgConfigVO.plantsPlaces.scale.portrait);
-                _.forEach(item.list, function(value, key) {
-                    if(key > 1){
-                        if(key > 5){
-                            value.x = bgConfigVO.plantsPlaces.position.shift.portrait.x * (1.7 + key - 5)
-                                + value.width * (key - 6);
-                            value.y = height * bgConfigVO.plantsPlaces.position.shift.portrait.secondRowY;
-                        }
-                        else{
-                            value.x = bgConfigVO.plantsPlaces.position.shift.portrait.x * (0.7 + key)
-                                + value.width * (key - 2);
-                        }
-                    }
-                });
-                item.y = height * bgConfigVO.floor.position["floorMiddle"].portrait.y - item.list[2].height
-                    - bgConfigVO.plantsPlaces.position.shift.portrait.y;
-
-            }
-            else if (orientation === Phaser.Scale.LANDSCAPE) {
-                item.x = width/2 - 500;
-                item.setScale(bgConfigVO.plantsPlaces.scale.landscape);
-                _.forEach(item.list, function(value, key) {
-                    if(key > 1){
-                        if(key > 5){
-                            value.x = bgConfigVO.plantsPlaces.position.shift.landscape.x * (key - 5)
-                                + value.width * bgConfigVO.plantsPlaces.scale.landscape * (key - 5);
-                            value.y = height * bgConfigVO.plantsPlaces.position.shift.landscape.secondRowY;
-                        }
-                        else{
-                            value.x = bgConfigVO.plantsPlaces.position.shift.landscape.x * (key - 1)
-                                + value.width * bgConfigVO.plantsPlaces.scale.landscape * (key - 1) ;
-                        }
-                    }
-                });
-                item.y = height * bgConfigVO.floor.position["floorMiddle"].landscape.y
-                    - item.list[2].height * bgConfigVO.plantsPlaces.scale.landscape
-                    - bgConfigVO.plantsPlaces.position.shift.landscape.y;
-            }
-            item.list[0].setPosition(item.list[6].x, item.list[6].y - 40);
-            item.list[1].setPosition(item.list[3].x, item.list[3].y - 40);
-            break;
+        case "floorLeft":
+        case "floorRight":
+        case "floorTop":
+        case "floorMiddle":
+        case "floorBottom":
+        case "plantPlace1":
+        case "plantPlace2":
+        case "plantPlace3":
+        case "plantPlace4":
+        case "plantPlace5":
+        case "plantPlace6":
+        case "plantPlace7":
+        case "plantPlace8":
+        case "snakePlant":
+        case "aloePlant":
         case "popupLevel2":
         case "popupLevel3":
-            if (orientation === Phaser.Scale.PORTRAIT) {
-                item.setScale(bgConfigVO.popupLevel2.scale.portrait);
-                item.setPosition(width / 2 - 256 * 1.5, height / 2 - 2.5 * 256);
+        case "topBar":
+        case "oxygen":
+        case "plus1":
+        case "plus2":
+        case "plus3":
+        case "plus4":
+        case "plus5":
+        case "plus6":
+        case "plus7":
+        case "plus8":
+        case "plus9":
+        case "plus10":
+        case "plus11":
+        case "plus12":
+        case "plus13":
+        case "plus14":
+        case "plus15":
+        case "plus16":
+        case "plus17":
+        case "plus18":
+        case "plus19":
+        case "plus20":
+                item.setScale(bgConfigVO[orientation][key].scale.x  * width / 980,
+                    bgConfigVO[orientation][key].scale.y
+                    * height / 1800);
+                item.setPosition(width * bgConfigVO[orientation][key].position.x / 1000,
+                    height * bgConfigVO[orientation][key].position.y / 1000 );
+
+            if(key == "plantPlace5" && level == 1
+                || key == "plantPlace2" && level == 4){
+                gameObjects.oxygen.setPosition(
+                    bgConfigVO[orientation][key].position.x * width /1000
+                    + (gameObjects[key].width * gameObjects[key].scaleX - gameObjects.oxygen.width * gameObjects.oxygen.scaleX) / 2,
+                    bgConfigVO[orientation][key].position.y * height /1000
+                    + gameObjects[key].height * gameObjects[key].scaleY
+                    - gameObjects.oxygen.height * gameObjects.oxygen.scaleY
+                );
+                createOxygenAnimation(gameObjects[key], width/1000, height/1000);
             }
-            else if (orientation === Phaser.Scale.LANDSCAPE) {
-                item.setScale(bgConfigVO.popupLevel2.scale.landscape);
-                item.setPosition(width / 2 - 0.4 * 256, height / 2 - 0.4 * 256);
-            }
-            break;
+        break;
 
         case "hand":
-            if (orientation === Phaser.Scale.PORTRAIT) {
-                item.setScale(bgConfigVO.hand.scale.portrait);
-                if(level == 1 || level == 4) item.scaleY = -item.scaleY;
-                item.setPosition(width * bgConfigVO.hand.position[["level" + level]].portrait.x,
-                    height * bgConfigVO.hand.position["level" + level].portrait.y);
-                var handDestination = item.y - 200 * bgConfigVO.hand.scale.portrait;
+            item.setScale(bgConfigVO[orientation][key].scale.x , bgConfigVO[orientation][key].scale.y
+                * height / 1800);
+            item.setPosition(width * bgConfigVO[orientation][key].position["level" + level].x / 1000,
+                height * bgConfigVO[orientation][key].position["level" + level].y / 1000 );
+            if(level == 1 || level == 4) item.scaleY = -item.scaleY;
 
-            }
-            else if (orientation === Phaser.Scale.LANDSCAPE) {
-                item.setPosition(width /2 - bgConfigVO.hand.position["level" + level].landscape.x,
-                    height * bgConfigVO.hand.position["level" + level].landscape.y);
-                item.setScale(bgConfigVO.hand.scale.landscape);
-                if(level == 1) item.scaleY = -item.scaleY;
-
-                var handDestination = item.y - 200 * bgConfigVO.hand.scale.landscape;
-            }
+            var handDestination = item.y - 100 * height /1000 ;
             if(!_.isNil(handA)) handA.kill();
             handA = new TweenMax.to(item, 0.4, {
                 y: handDestination,
