@@ -1,4 +1,5 @@
 var tl_oxygen = new TimelineMax();
+
 function createOxygenAnimation(item, width, height){
     tl_oxygen.kill({x:true, y:true, alpha: true});
     tl_oxygen.paused(true);
@@ -27,5 +28,19 @@ function plusOneAnimation(item){
         onComplete: function () {
             this.visible = false;
         }.bind(item)
+    });
+}
+
+function handAnimation(item, height){
+    var handDestination = item.y - 100 * height;
+    if(!_.isNil(handA)) handA.kill();
+    handA = new TweenMax.to(item, 0.4, {
+        y: handDestination,
+        onComplete: function () {
+            handA.reverse();
+        }, onReverseComplete: function () {
+            handA.play();
+
+        }
     });
 }

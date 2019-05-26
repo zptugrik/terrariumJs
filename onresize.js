@@ -88,7 +88,7 @@ var bgConfigVO = {
             popupLevel2 : { scale: {x: 0.3, y: 1}, position: {x: 368, y: 250}},
             popupLevel3 : { scale: {x: 0.3, y: 1}, position: {x: 368, y: 200}},
 
-            hand: { scale: {x: 0.26, y: 0.8}, position: {
+            hand: { scale: {x: 0.22, y: 0.8}, position: {
                         level1: {x: 160, y: 700},
                         level2: {x:580, y: 170},
                         level3: {x:440, y:760},
@@ -138,60 +138,27 @@ console.log(key);
 
 
         case "background":
-        var ratioH = height / bgConfigVO.background.height;
-        item.setSize(width, height);
-        if( ratioH > 1) item.scaleY = ratioH;
+            var ratioH = height / bgConfigVO.background.height;
+            item.setSize(width, height);
+            if( ratioH > 1) item.scaleY = ratioH;
         break;
 
+        case "hand":
+            item.setScale(bgConfigVO[orientation][key].scale.x , bgConfigVO[orientation][key].scale.y
+                * height / 1800);
+            item.setPosition(width * bgConfigVO[orientation][key].position["level" + level].x / 1000,
+                height * bgConfigVO[orientation][key].position["level" + level].y / 1000 );
+            if(level == 1 || level == 4) item.scaleY = -item.scaleY;
 
-        case "cloud1":
-        case "cloud2":
-        case "cloud3":
-        case "cloud4":
-        case "floorLeft":
-        case "floorRight":
-        case "floorTop":
-        case "floorMiddle":
-        case "floorBottom":
-        case "plantPlace1":
-        case "plantPlace2":
-        case "plantPlace3":
-        case "plantPlace4":
-        case "plantPlace5":
-        case "plantPlace6":
-        case "plantPlace7":
-        case "plantPlace8":
-        case "snakePlant":
-        case "aloePlant":
-        case "popupLevel2":
-        case "popupLevel3":
-        case "topBar":
-        case "oxygen":
-        case "plus1":
-        case "plus2":
-        case "plus3":
-        case "plus4":
-        case "plus5":
-        case "plus6":
-        case "plus7":
-        case "plus8":
-        case "plus9":
-        case "plus10":
-        case "plus11":
-        case "plus12":
-        case "plus13":
-        case "plus14":
-        case "plus15":
-        case "plus16":
-        case "plus17":
-        case "plus18":
-        case "plus19":
-        case "plus20":
-                item.setScale(bgConfigVO[orientation][key].scale.x  * width / 980,
-                    bgConfigVO[orientation][key].scale.y
-                    * height / 1800);
-                item.setPosition(width * bgConfigVO[orientation][key].position.x / 1000,
-                    height * bgConfigVO[orientation][key].position.y / 1000 );
+            handAnimation(item, height / 1000);
+            break;
+
+        default:
+            item.setScale(bgConfigVO[orientation][key].scale.x  * width / 980,
+                bgConfigVO[orientation][key].scale.y
+                * height / 1800);
+            item.setPosition(width * bgConfigVO[orientation][key].position.x / 1000,
+                height * bgConfigVO[orientation][key].position.y / 1000 );
 
             if(key == "plantPlace5" && level == 1
                 || key == "plantPlace2" && level == 4){
@@ -204,26 +171,6 @@ console.log(key);
                 );
                 createOxygenAnimation(gameObjects[key], width/1000, height/1000);
             }
-        break;
-
-        case "hand":
-            item.setScale(bgConfigVO[orientation][key].scale.x , bgConfigVO[orientation][key].scale.y
-                * height / 1800);
-            item.setPosition(width * bgConfigVO[orientation][key].position["level" + level].x / 1000,
-                height * bgConfigVO[orientation][key].position["level" + level].y / 1000 );
-            if(level == 1 || level == 4) item.scaleY = -item.scaleY;
-
-            var handDestination = item.y - 100 * height /1000 ;
-            if(!_.isNil(handA)) handA.kill();
-            handA = new TweenMax.to(item, 0.4, {
-                y: handDestination,
-                onComplete: function () {
-                    handA.reverse();
-                }, onReverseComplete: function () {
-                    handA.play();
-
-                }
-            });
             break;
     }
 
